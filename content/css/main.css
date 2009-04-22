@@ -1,0 +1,126 @@
+---
+extension: css
+filter:    sass
+layout:    nil   # no layout
+---
+body 
+  margin: 0px
+  background-color: #A3FF5F
+
+
+#content 
+  position: relative
+  width: 70%
+  padding: 1em
+  margin: 0 auto
+  color: #E3FF9F
+  background-color: #3F3F3F
+  font-family: Trebuchet MS
+  font-size: 12px
+
+  #entries 
+    padding: 0px
+    margin-right: 300px
+
+  li.entry 
+    margin: 4em 0
+    list-style: none
+
+  div.entrybody 
+    color: #E0FFAF
+    line-height: 1.3em
+
+
+li.entry span.date 
+  font-size: .9em
+  color: #858F74
+
+
+h2 
+  display: inline
+
+
+h2 a 
+  text-decoration: none
+  font-size: 1.2em
+
+
+a 
+  padding: .1em
+  color: #BBFF4F
+  background-color: #333
+
+
+a:hover 
+  color: #7FDEFF
+  background-color: #666
+
+
+
+
+#content 
+  .sidebar 
+    position: absolute
+    width: 220px
+    right: 1em
+    top: 1em
+    h2 
+      display: block
+      color: #666
+      padding: .25em
+  pre code 
+    padding: .25em
+    font-family: Monaco, monospace
+  pre code[class]:after 
+    background: #666
+  ol.commentlist li 
+    list-style: none
+
+
+#tag_list 
+  width: 200px
+  padding: 0px
+  li 
+    list-style: none
+    float: left
+    margin: .15em
+
+#comment-form input, #comment-form textarea 
+  border: 2px solid #2f2f2f
+  margin-right: 1em
+
+
+#comment-form input:focus, #comment-form textarea:focus 
+  border-color: #7FDEFF
+
+
+#comment-form input.submit 
+  border: auto
+
+
+#header 
+  background-color: #1F1F1F
+  border-bottom: .5em solid #3F3F3F
+  color: #3f3f3f
+  font-family: Trebuchet MS
+
+  h1, p 
+    margin: 0px
+    padding: 0px
+  h1 
+    display: inline
+    padding-left: 1em
+    font-size: 3em
+    a 
+      background-color: transparent
+      text-decoration: none
+      color: #3f3f3f
+
+    a:hover 
+      color: #7FDEFF
+
+#footer 
+  padding-top: 1em
+  font-family: Trebuchet MS
+  text-align: center
+  font-size: .6em

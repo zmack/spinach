@@ -1,0 +1,14 @@
+---
+extension: html
+filter:    haml
+---
+- @posts = @pages.find(:all, :in_directory => '/', :recursive => true, :blog_post => true)
+%h2 Articles
+%ul
+  - @posts.each do |page|
+    %li= link_to page.title, page
+
+%h2 Tags
+%ul
+  - @posts.map{|p| p.tags}.flatten.uniq.each do |tag|
+    %li= tag
