@@ -1,11 +1,13 @@
-module Webby::Apps
-  class Generator
-    alias_method :original_create_site, :create_site
+module Webby
+  class Builder
+    alias_method :original_run, :run
 
-    def create_site
-      puts "Hello moto"
-      original_create_site
+    def run( opts = {} )
+      original_run(opts)
       puts "Goodbye moto"
+      Resources.pages.each do |file|
+        p file.tags
+      end
     end
   end
 end
