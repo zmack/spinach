@@ -1,10 +1,10 @@
 ---
-created_at: 2009-05-14 23:37:09.089414 +03:00
+created_at: 2009-05-14 23:37:09.051803 +03:00
 filter:     erb
 dirty:      true
 tag_page:   true
 ---
-<h2>Articles tagged <em>hacking</em></h2>
+<h2>Articles tagged <em>gems</em></h2>
 
 <ul id="entries">
 <%
@@ -12,7 +12,7 @@ tag_page:   true
       :sort_by => "created_at", :reverse => true, :blog_post => true)
 
   articles.each do |page|
-    next unless page.tags && page.tags.include?("hacking")
+    next unless page.tags && page.tags.include?("gems")
 -%>
 <li class="entry">
   <h2><%= link_to_page(page) %></h2>

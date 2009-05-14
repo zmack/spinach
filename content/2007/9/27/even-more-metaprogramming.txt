@@ -1,0 +1,72 @@
+---
+title: Even more metaprogramming
+created_at: 2007-09-27 19:32:19 +03:00
+blog_post: true
+filter:
+  - tidy
+layout:
+  - post
+tags:
+  - hacks
+  - ruby
+  - meta
+
+---
+<p>
+Well, it's been a couple of weeks since i've posted anything and i do feel quite guilty about it. Therefore, i shall post more metaprogramming !
+
+In the project i'm currently working on, it has been my great displeasure to encounter blocks similar to the following
+</p>
+
+<pre>
+<code>
+def xml_goats
+  configuration_node.root.elements["goats"].text.strip
+end
+  
+def xml_apples
+  configuration_node.root.elements["apples"].text.strip
+end
+  
+def xml_cherries
+  configuration_node.root.elements["cherries"].text.strip
+end
+</code>
+</pre>
+
+<p>I don't know about you, but to me, that just screams "metametametameta !!!". And it's not just because i'll use any excuse to stick some metaprogramming in my classes, but it genuinely looks like a load of nasty copy-paste malarkey. As such, i proceeded with my evil deeds</p>
+
+<pre>
+<code>
+class Margerine
+  %w[goats apples cherries].each{|x| 
+    class_eval(%Q{
+      def xml_#{x}
+        configuration_node.root.elements["#{x}"].text.strip
+      end
+    })
+  }
+end
+</code>
+</pre>
+
+<p>This by all means pretty much works as expected, and defines all those lovely functions for me. However, it still leaves me feeling a bit empty and unsatisfied. What if someday, somehow, we have more of these functions and they require a different set of method calls on the given node ? What will happen to our beautiful code then ? Will it be thrown to the gutter, like an old mistress with a dirty stocking ? Will it be fed to the wolves, like a lovingly furry squirrel who has eaten one too many hazelnuts ? That would most certainly not do. As such, we must make our code better, stronger, and even more delicious. </p>
+<pre>
+<code>
+class Margerine
+  def self.attr_xml_reader(items,submethod = "text.strip")
+    items.each{|item|
+      class_eval( %Q{
+        def xml_#{item}
+          configuration_node.root.elements["#{item}"].#{submethod}
+        end
+      }	)
+    }
+  end
+
+  attr_xml_reader %w[goats apples cherries], "text.strip.downcase"
+
+end
+</code>
+</pre>
+<p>Now we are indeed satisfied with our work, and knowing that all damsels and squirrels the world over are safe and sound, we rest to code another day</p>

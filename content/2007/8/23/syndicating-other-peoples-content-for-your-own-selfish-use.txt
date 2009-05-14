@@ -1,0 +1,76 @@
+---
+title: Syndicating other people's content for your own selfish use
+created_at: 2007-08-23 20:25:06 +03:00
+blog_post: true
+filter:
+  - tidy
+layout:
+  - post
+tags:
+  - ruby
+  - hpricot
+
+---
+<p>I've grown to love and adore google reader. It's the only tab that stays open for the entire duration of the day in my browser, mainly because if you subscribe to the right feeds, there's always something good to read. The thing is, feeds have made me lazier than i should be, namely, checking sites for stuff i want has suddenly become a chore. It's like calling the post office every day asking Mr. Wabu, the postal server, if any letters have arrived for you, instead of having the kind-hearted Mr. Wabu drop by your house every day and just deliver your loving bills in your lovely mailbox.</p>
+<p>As such, i decided this could not go on any longer. Mr. Wabu had to come by my house. Enter the Ruby !</p>
+<p>In case i've been too abstruse up to now, what i mean to do is syndicate the content of a website which, while relevant to me, has no rss feed of its own. For this particular example i'm using <a href="http://code.whytheluckystiff.net/hpricot">Hpricot</a> for the ingenious act of spidering, and the omnipotent <a href="http://builder.rubyforge.org/">builder</a> to generate the xml. I'm quire sure there are a number of gems/libraries out there that can generate rss much easier than builder, but this was the first one that came to mind and it is quite delightful to work with.</p>
+<h2>Ze Spider</h2>
+<p>I'd used to do spidering using just open-uri and scan, as i found writing 3-row regular expressions for my desired data a delight. This time, however,  i wanted to do something wild, so i went with Hpricot. This involves doing something to the tune of 
+<pre>
+<code>
+open(address) { |file|
+    doc = Hpricot(file)
+    doc.search('td.content table table table tr') { |match|
+</code>
+</pre>
+As you can probably figure, the parameter for search is a css-style selector for a horribly built table layout. We want this field's prized possession to become our own, so rob it of its data and see if it is of any use to us
+<pre>
+<code>
+if ( match.innerText =~ /pickles/ )
+</code>
+</pre>
+Yes, we are looking for pickles. <br/> Upon having found said pickles, we store their title, address and description somewhere, so that we can get them when we build the feed. I used a hash 
+<pre>
+<code>
+date = match.children[0].innerText.split('/')
+        date = Date.new(2000+date[2].to_i,date[1].to_i,date[0].to_i)
+        results << {   :title => "#{title} #{match.children[2].innerText}",
+                :link => match.children[5].search("a").attr("href"),
+                :body => match.children[5].search("a").attr("href"),
+                :date => date
+              }
+</code>
+</pre>
+I was looking into a row, and the sixth child contained the link so, not being interested in the link's inner text, i just used Hpricot to extract the link's href. 
+</p>
+<h2>Ze Feed</h2>
+<p>Moving on, let's say we have the results we need, so now we have to generate our feed. I used builder to get this done, mainly because it's easy to understand and the syntax is pretty much gorgeous. The feed is rss 0.91 because i was looking for something really simple, which google reader could understand. If you want to generate some other kind of RSS you can find the specs <a href="http://cyber.law.harvard.edu/rss/rss.html">here</a>.
+<pre>
+<code>
+def midgets_to_rss(midgets)
+  xml = Builder::XmlMarkup.new
+  xml.rss(:version => "0.91") {
+    xml.channel {
+      xml.title("Picklez")
+      xml.description("Your picklez, foo !")
+      midgets.each { |midget|
+        xml.item {
+          xml.title( midget[:title] )
+          xml.link( midget[:link] )
+          xml.description( midget[:body] )
+        }
+      }
+    }
+  }
+end
+</code>
+</pre>
+</p><p>You have your RSS 0.91 generated and all pretty, just waiting for to be stored somewhere. A number of options present themselves to you now, the main ones being that you either run your script on request as a CGI, or you stick it into a cron task and have it store its results in an XML for you. You could go either way, i chose to go with a cron task that sticks the feed into a file once an hour, because the data i'm intrested in isn't very urgent. 
+</p>
+<p>Should you want the source of my awful thief of a script, and together with it the terrible secret of which cartoons i watch, you can find them <a href="/assets/2007/8/23/stealerman.rb">here</a></p>
+<p>Also, one thing you should note is that in case you're running your script from a shared host and your ruby gems are stored in the local directory, you should probably set the ruby gem home dir in the script before you add your requires and what not.
+<pre>
+<code>
+ENV['GEM_HOME']='/home/#{whatever}/ruby/gems/'
+</code>
+</pre>

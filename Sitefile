@@ -5,5 +5,7 @@ desc 'deploy the site to the webserver'
 task :deploy => [:build, 'deploy:rsync']
 
 SITE.tags_dir = 'tags'
+SITE.title = "Spinach"
+SITE.subtitle = "It's chewy in the mouth"
 
 # EOF

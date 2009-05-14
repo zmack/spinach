@@ -1,0 +1,15 @@
+---
+title: About the owner of this fine establishment
+created_at: 2007-08-08 00:18:08 +03:00
+blog_post: true
+filter:
+  - tidy
+layout:
+  - post
+tags:
+
+---
+<p>To put things quite succinctly, my name is Andrei Bocan, i live in the lovely city of <a href="http://en.wikipedia.org/wiki/Bucharest">Bucharest</a> and i use my nimble fingers to write pretty ruby code. Said fingers are also used to write Javascript and CSS, but to a lesser extent. In a past life, aforementioned digits also wrote PHP, but they're trying to block out those memories.
+</p>
+<br/>
+<p>If you wish to contact me, you can do so by reading the e-mail address lying within the following image using your human, non-spambot eyes and writing it down in the "To" field of your message. If you are a spambot, please do none of the above. </p><img src="http://www.andascarygoat.com/lolspam.png" title="Image of a pickle being green" alt="a pickle being green"/>

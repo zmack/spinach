@@ -1,0 +1,68 @@
+---
+title: Today is not today
+created_at: 2008-01-27 20:08:17 +02:00
+blog_post: true
+filter:
+  - tidy
+layout:
+  - post
+tags:
+  - hacks
+  - ruby
+  - gems
+
+---
+<p>
+Hello there, kind and generous readers. It's been a while since my last post, and i'm quite sure i have been sorely missed. I would really like to say something along the lines of 'the past few months have been really really hectic and i have been immensely busy' but that would be somewhat untrue. The fact of the matter is that <strike>i've been doing lots and lots of javascript</strike> <strike>nothing really seemed that blogworthy</strike> i'm a lazy slob.
+</p>
+<p>But from today onwards, i have decided to be a lazy slob no more ! Regular, coherent blogging here i come ! Well, mostly regular, can't quite guarantee coherency on my part. But, i digress. Today's topic is the lovely rubygems and the most disturbing fact that in version 1.0.1,
+</p>
+<h2>Today is not today</h2>
+<p>
+Just so you know what i'm talking about, in case you have rubygems 1.0.1 installed and ruby 1.8, fire up irb and do the following :
+<pre>
+<code>
+require 'rubygems'
+Time.today == Time.today
+</code>
+</pre>
+The thing that'll probably show up will most likely be something along the lines of "=> false". There is a slim chance that it'll return true, but more on that later.
+Actually, scratch that; more on that <b>now</b>. If you turn that lovely today into a float, you'll be greeted by a lovely bunch of numbers. They may be quite similar to the following:
+<pre>
+<code>
+irb(main):003:0> Time.today.to_f         
+=> 1201384800.62603
+</code>
+</pre>
+What may have already gotten your senses tingling should be that floating point part. What's that doing in our upstanding, fixed, and morally responsible time for the present day ? Does our day start at a random millisecond ? Nay, i say ! It does not.
+</p>
+<p>Ok, so we know what the problem is, namely that somebody forgot to trim the floating point part, and we know roughly where it is, namely somewhere inside rubygems. After some grepping, you should find this little gem ( very subtle pun ! ) inside specification.rb:
+<pre>
+<code>
+# Time::today has been deprecated in 0.9.5 and will be removed.
+if RUBY_VERSION < '1.9' then
+  def Time.today
+    t = Time.now
+    t - ((t.to_i + t.gmt_offset) % 86400)
+  end unless defined? Time.today
+end
+</code>
+</pre>
+This is your typical good news - bad news scenario. The good news is that this thing's getting removed, the bad news is that it's buggy, it's in your code, and it's making the very fabric of time collapse upon itself. The way to fix it is quite complex, and instead of giving a rather lengthy and enlightening explanation of its inner workings, i'll just paste the fixed code. 
+<pre>
+<code>
+# Time::today has been deprecated in 0.9.5 and will be removed.
+if RUBY_VERSION < '1.9' then
+  def Time.today
+    t = Time.now
+    t - ((t.to_f + t.gmt_offset) % 86400)
+  end unless defined? Time.today
+end
+</code>
+</pre>
+Having read all that reworked and finely retuned code, please take a moment to grab a cup of tea, watch a video, or do whatever you find most relaxing. The last thing i would like to do is strain the honorable reader.
+</p>
+<p>
+So that's basically it. I've submitted the bug <a href="https://rubyforge.org/tracker/index.php?func=detail&aid=17413&group_id=126&atid=575">here</a>, and in case you'd like to fix your version before the new one comes out, look for specification.rb in a folder resembling "/usr/lib/ruby/site_ruby/1.8/rubygems". It doesn't have to be <i>identical</i> to that, but that "site_ruby" part is pretty much a given.
+</p>
+

@@ -1,0 +1,64 @@
+---
+title: A mighty factory worker
+created_at: 2007-11-07 16:52:18 +02:00
+blog_post: true
+filter:
+  - tidy
+layout:
+  - post
+tags:
+  - ruby
+  - meta
+  - testing
+
+---
+<p>In my last post i ranted slightly about having a factory instead of fixtures and why i think it's worth doing. The problem with <a href="http://www.dcmanges.com/">Dan Marges'</a> Factory is, however that it tends to create a whole lot of junk you don't need.</p>
+<p>Allow me to explain. Let's take this snippet
+<pre>
+<code>
+def self.create_newspaper(attributes = {})
+  default_attributes = {
+    :customer => create_customer,
+    :headline => "Read all about it!"
+    :paperboy => create_paperboy
+  }
+  Newspaper.create! default_attributes.merge(attributes)
+end
+</code>
+</pre>
+Let's say we had a paperboy already created in this particular situation and we passed it to the method via the attributes param. After this call, like it or not, we'll be stuck with two paperboys. Add to this validations and the fact that the point of factory is to write less test data than you would with fixtures and you'll most likely see my point.</p>
+<p>So let's recap what we'd like. We'd like something that creates all attached models to the one we call, and we'd like it to do so without screwing up every single thing in the universe. Sounds easy enough. </p>
+<p>Let's say we have <b>pickle</b> which belongs to <b>jar</b> which belongs to <b>shelf</b>. When we call create_shelf we'd like our mighty class to also create pickles and jars to go along with our nice green shelf. </p>
+<p>Now at the time i had realised the simplicity of my needs, i had already gone into a great deal of trouble and writing to order my functions in a 'factory' sort of way. I had <b>create_pickle</b>, <b>create_jar</b> and <b>create_shelf</b> all ready, and waiting for my signal. Not wanting to reformat all my code, i namely my newly-created method 'clever_create'. Its story was as follows
+<pre>
+<code>
+  def self.clever_create(klass, existing = {})
+    call_stack = [:pickle, :jar, :shelf]
+
+    create_params = {}
+
+    call_stack.each do |current|
+      create_params[current] = existing[current] || eval("self.create_#{current}(create_params)")
+      break if current == klass
+    end
+
+    create_params
+  end
+</code>
+</pre>
+That should pretty much take care of creating your objects for you and return your whole bunch of stuff in one neatly packed hash. The only problem is that, since you're doing a merge on the create_params in your create functions, some of those keys might not have methods in your models. As such, you should change your merge to an exclusive merge, which, oh noes, is not present in the manual ! What are we to do ? One option would be to run around screaming in anguish and dismay until we feint, another would be, as we are in ruby, to just create one. 
+<pre>
+<code>
+class Hash
+  def exclusive_merge(other)
+    self.each_key do |key|
+      self[key] = other[key] if other.has_key?(key)
+    end
+  end
+end
+</code>
+</pre>
+So there it is. If there is one already, i couldn't find it because it isn't called 'exclusive_merge'. If there isn't, then it's all good. 
+</p>
+<p>There would be more to add, but sadly my alcoholic beverage of choice is getting quite warm by now, and i must continue another time. 
+As such, i bid you farewell and good fortune !</p>

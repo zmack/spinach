@@ -1,0 +1,38 @@
+---
+title: "Tribby: Github embeddable contribution graph"
+created_at: 2008-07-23 09:31:58 +03:00
+blog_post: true
+filter:
+  - tidy
+layout:
+  - post
+tags:
+  - actionscript
+  - git
+  - tribby
+---
+<p>
+Hopefully i don't steal any names with this one :P.
+</p>
+
+<p>
+As the title aptly puts it, <a href="http://github.com/zmack/tribby/">Tribby</a> is a tiny flash app that displays a user's contribution to a repo, much like the nice bar thingies do on github. The nice thing about it, though, is that it makes it dirt easy to just roll your own contribution visualisation dingies, since all the cheesy data transfer-conversion part is done for you, so you're just left with an array containing the number of commits belonging to the user and the total number of commits. 
+</p>
+<p>
+My ugly first attempt at getting something showing looks like this:
+</p>
+
+<p>
+That shows <a href="http://substantiality.net/">Sam Smoot</a>'s contribution to the <a href="http://github.com/sam/dm-core/">datamapper core repo</a>. Much love to mr. Smoot !
+</p>
+
+<p>
+It's fully scalable, so if you want it bigger or smaller, just change the width and height and you're all set. The danger is that if you make it too small you won't be able to make out crap, and if you make it too big it'll just make people cry and call you a meanie. Whichever works best for you.
+</p>
+<p>
+The level of actionscript you need to know to start making your own visualization isn't really that high so you could start experimenting armed only with the <a href="http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/">AS3 LiveDocs</a> and the awesome <a href="http://www.projectsprouts.org/">Sprouts</a> gem. Big tanks to <a href="http://www.asserttrue.com/">Luke Bayes</a> for a fantastic job on that project.
+</p>
+
+<p>
+Anyway, that's about all there is to say for now, feel free to check out the readme in the <a href="http://github.com/zmack/tribby/">Tribby</a> repo, fork it, kill it, make it bake cookies and such. Any questions or whatnot, hit me up on <a href="http://twitter.com/monsieur_pickle">twitter</a> or just leave a comment.
+</p>

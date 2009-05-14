@@ -10,5 +10,5 @@ filter:    haml
 
 %h2 Tags
 %ul
-  - @posts.map{|p| p.tags}.flatten.uniq.each do |tag|
-    %li= tag
+  - @posts.map{|p| p.tags}.flatten.uniq.compact.each do |tag|
+    %li= link_to tag, "/tags/#{tag.to_url}.html"

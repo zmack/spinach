@@ -1,0 +1,35 @@
+---
+title: Vim Tip Tuesday
+created_at: 2008-03-04 17:43:52 +02:00
+blog_post: true
+filter:
+  - tidy
+layout:
+  - post
+tags:
+  - vim
+  - somewhat useful
+
+---
+<p>
+For the past few days i've been basically migrating all of my working hours over to another machine. While this sounds horrendously dull and annoying, i can pretty much assure you that it is. The most annoying thing, by far, though has been getting vim to act the same as it had on my former electronic helper. 
+</p>
+<p>
+The quick fix for this would've been to just import <a href="http://evil.che.lu">chelu</a>'s hardcore .vim folder, but that just left me with a nagging feeling that i wasn't actually using all of the stuff in there. I wanted to go bare bones, raw bit mode, hunter hunted, man and nature, leaf and squirrel ! In layman terms, i just wanted to know what the hell each line of my conf was actually doing, instead of importing 2000 lines of stuff which had a pleasant outcome. 
+</p>
+<p>
+In the end, the stuff that i managed to boil my config down to contained two main things:
+</p>
+<h2>Having vim not deselect after indenting in visual mode</h2>
+<p>
+This irritated me more than having warm beer served to me by a fat waiter. I'd continue on with the prose on this topic, but the bulk of the matter is that it pissed me off. This fixes it, or rather it uses a 'large hammer' approach to solve this issue
+<pre>
+vmap &lt;&lt; &gt;gv
+vmap &gt;&gt; &gt;gv
+</pre>
+It basically tells vim to reselect the last selection after shifting left/right. Not the most elegant approach, but most effective.
+</p>
+<h2>Temp files all over the place</h2>
+<p>
+You know vim tempfiles. They're those things that show up when you want to check the status in your SCM of choice and just piss you off by being the background noise to your lovely afternoon on the country. The way to swat this nuisance is to simply tell our lovely friend vim to place his goddamn trash someplace else. Anywhere else, but preferably somewhere we would have nothing to do with it. The way to do this is to alter the <b>directory</b> variable in vim. Initially, that lists "." as the first acceptable option. Just set it to something  else, or simply erase the "." folder from the bunch, and you're good to go. Gray hairs no more !
+</p>

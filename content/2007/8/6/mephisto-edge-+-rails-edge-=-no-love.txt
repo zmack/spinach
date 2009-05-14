@@ -1,0 +1,44 @@
+---
+title: Mephisto edge + Rails edge = no love
+created_at: 2007-08-06 20:21:22 +03:00
+blog_post: true
+filter:
+  - tidy
+layout:
+  - post
+tags:
+  - mephisto
+  - hacks
+
+---
+After postponing putting up a blog about my many and diverse ruby adventures, i finally sat down for a couple of minutes and put this up. 
+
+Going through the regular motions of installing mephisto, it all seemed ok until i tried to log into the admin account. Then - disaster !
+Mephisto died mercilessly stating that 
+
+<pre>
+<code>
+NoMethodError (undefined method `extract_options_from_args!' for #<Class:0x2aaaf9b8a668>)
+</code>
+</pre>
+
+After some grepping i found the function in activerecord base, in an earlier version of rails :
+
+<pre>
+<code>
+def extract_options_from_args!(args) #:nodoc:
+  args.last.is_a?(Hash) ? args.pop : {}
+end
+</code>
+</pre>
+
+The whole thing originates in the acts_as_paranoid plugin, so basically you can either patch that with the function definition, replace the call to the function, or just be a horrible human being and patch your edge rails with the function. Whichever way you choose to take, it should fix the issue. 
+<br/><br/>
+<i>Later edit</i><br/>
+As BradC points out, the intended replacement for extract_options_from_args! is args.extract_options!. As such, replacing line 75 of paranoid.rb to
+<pre>
+<code>
+options = args.extract_options!
+</code>
+</pre>
+would not make you a horrible person, quite on the contrary, it would make you a lovely one !

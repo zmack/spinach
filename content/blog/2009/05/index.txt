@@ -1,20 +1,20 @@
 ---
-title:      04
-created_at: 2009-04-21 14:41:59.027082 +03:00
+title:      05
+created_at: 2009-05-14 19:15:23.396403 +03:00
 filter:     erb
 dirty:      true
 ---
 <h2><%= h(@page.title) %></h2>
 
-<ul id="entries">
 <%
   articles = @pages.find(:all, :in_directory => @page.dir, :recursive => true,
       :sort_by => "created_at", :reverse => true, :blog_post => true)
   articles.delete(@page)
   paginate(articles, 10) do |page|
 -%>
+<ul id="entries">
   <li class="entry">
-    <h2><%= link_to_page(page) %></h2>
+    <h1><%= link_to_page(page) %><span class="date">(<%= page.created_at.strftime('%Y-%m-%d') %>)</span></h1>
 
     <div class="body">
       <%= render(page) %>

@@ -1,0 +1,101 @@
+---
+title: Inflector fun with datamapper and merb
+created_at: 2008-07-09 17:51:08 +03:00
+blog_post: true
+filter:
+  - tidy
+layout:
+  - post
+tags:
+  - ruby
+  - somewhat useful
+  - merb
+
+---
+<p>
+Uh, really awkward. I've been posting so little that i've actually forgotten what the standard post structure is like, and am now forced to steal despicably from my other posts. I'm a dirty thieving bastard :(
+</p>
+<p>
+But, i digress.
+</p>
+<p>
+As of late, I've been messing around with <a href="http://merbivore.com/">merb</a> for a personal project of mine, as old men do in the privacy of their own homes. Being the original fellow that we all know i am, my project has nothing to do with lolcats. Wanting to enforce that as thoroughly as possible, i decided to send a clear message to everybody, and screw up the inflector for 'lolcat'. 
+</p>
+<h2>Long version ( filled with passion and romance )</h2>
+<p>
+It seemed like a good idea at the time, although i must admit, alcohol was involved. 
+</p>
+<p>Lawfully, i read the init.rb file, and found the code i was craving: </p>
+<pre>
+<code>
+# Here we define erratum/errata exception case:
+#
+# Language::English::Inflector.word "erratum", "errata"
+</code>
+</pre>
+<p>
+"If it works for a fancy word like that, it's sure to work for 'lolcat' !", i thought, conspiring to the demise of humorous felines. Alas, having uncommented that piece of code, i was greeted by my old friend, the shit storm. Do say hello
+</p>
+<pre>
+<code>
+/Users/zmack/Projects/omgpron/config/init.rb:133: uninitialized constant Language::English::Inflector (NameError)
+        from /Library/Ruby/Gems/1.8/gems/merb-core-0.9.4/lib/merb-core/bootloader.rb:304:in `load'
+        from /Library/Ruby/Gems/1.8/gems/merb-core-0.9.4/lib/merb-core/bootloader.rb:304:in `load_initfile'
+        from /Library/Ruby/Gems/1.8/gems/merb-core-0.9.4/lib/merb-core/bootloader.rb:253:in `run'
+        from /Library/Ruby/Gems/1.8/gems/merb-core-0.9.4/lib/merb-core/bootloader.rb:65:in `run'
+        from /Library/Ruby/Gems/1.8/gems/merb-core-0.9.4/lib/merb-core/server.rb:51:in `start'
+        from /Library/Ruby/Gems/1.8/gems/merb-core-0.9.4/lib/merb-core.rb:87:in `start'
+        from /Library/Ruby/Gems/1.8/gems/merb-core-0.9.4/bin/merb:12
+        from /usr/bin/merb:19:in `load'
+        from /usr/bin/merb:19
+</code>
+</pre>
+
+<p>
+Dug around a bit, turns out the class was <em>Language::English::Inflect</em>. No worries, we just change it to that and it does the trick. Well, not really.
+<p>
+<pre>
+<code>
+>> "locat".pluralize # omg omg ?
+=> "locats" # gnoes :(
+</code>
+</pre>
+
+<p>Elegantly, i break out the hammer, and mightily unleash it upon the unsuspecting merb</p>
+<pre>
+<code>
+require 'ruby2ruby' # => true
+"lolcat".method(:plural).to_ruby # => "def plural\n  English::Inflect.plural(self)\nend"
+</code>
+</pre>
+<p>What is this treachery ? I was strictly instructed to use <em>Language::English::Inflect</em> and now this doppelgänger comes to haunt me ?</p>
+<p>The trouble is, apparently, that Datamapper's extlib, being the eager little beaver that it is, also implements a <em>pluralize</em> method, and uses the english gem with no namespacing. </p>
+<p>Using <em>English::Inflect</em> in <em>init.rb</em> results in more fail, as Datamapper apparently isn't loaded by that time. The thing that came to my mind by this point was to just stick the inflector rule in a model. If it's loading a model, Datamapper is bound to be loaded, wouldn't really make sense to be in the model without Datamapper, so our Inflector is bound to be in reach down there.
+</p>
+<p>
+And now, after a hard day's work, it is finally time to admire the fruits of our labor
+</p>
+<pre>
+<code>
+"lolcat".pluralize # => "lolyourmum"
+</code>
+</pre>
+<p><em>Awesome !</em></p>
+<h2>Short version</h2>
+<p>If you're using merb and want to add a custom inflector, the init.rb comments are bunk, and what you have to use is</p>
+<pre>
+<code>
+Language::English::Inflect.word "erratum", "errata"
+</code>
+</pre>
+<p>
+Moreover, if you're also using Datamapper, the method on String gets monkeypatched, so you need to patch DM's inflector as well, by sticking the following in one of your models ( well, _near_ them anyway )
+</p>
+<pre>
+<code>
+English::Inflect.word "erratum", "errata"
+
+class SomeModelOmg
+</code>
+</pre>
+

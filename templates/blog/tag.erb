@@ -2,20 +2,23 @@
 created_at: <%= Time.now.to_y %>
 filter:     erb
 dirty:      true
+tag_page:   true
 ---
-<h2>Articles tagged <%= tag %></h2>
+<h2>Articles tagged <em><%= tag %></em></h2>
 
+<ul id="entries">
 <%%
   articles = @pages.find(:all, :in_directory => '/', :recursive => true,
       :sort_by => "created_at", :reverse => true, :blog_post => true)
 
   articles.each do |page|
+    next unless page.tags && page.tags.include?("<%= tag %>")
 -%>
-<div class="article">
-  <h1><%%= link_to_page(page) %><span class="date">(<%%= page.created_at.strftime('%Y-%m-%d') %>)</span></h1>
+<li class="entry">
+  <h2><%%= link_to_page(page) %></h2>
 
   <div class="body">
     <%%= render(page) %>
   </div>
-</div>
+</li>
 <%% end -%>

@@ -4,6 +4,8 @@ filter: haml
 layout: default
 ---
 
-%h2= @page.title
+%ul#entries
+  %li.entry
+    %h2= @page.title
 
-= @content
+    = @content

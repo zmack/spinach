@@ -1,0 +1,63 @@
+---
+title: Tasting the sweet nectar of metaprogramming
+created_at: 2007-09-06 11:50:58 +03:00
+blog_post: true
+filter:
+  - tidy
+layout:
+  - post
+tags:
+  - hacks
+  - ruby
+  - meta
+
+---
+Metaprogramming is something you hear a lot about when you're around ruby, and with good reason. It's insanely powerful and hands down the most fun you can have with a programming language. Given that it's quite a complex topic, i'll start off slow - custom getters and setters. If you've used ruby for more than 20 minutes, you've probably seen attr_reader / attr_writer / attr_accessor. They're snippets of metaprogramming that just generate methods. Take attr_accessor, for instance. It gets you something to the tune of
+<pre>
+<code>
+def #{name}
+  @#{name}
+end
+
+def #{name}=(value)
+  @#{name} = value
+end
+</code>
+</pre>
+
+But let's say you need something slightly more complex than that. Let's say you're writing an application which features sock possession reporting for animals with silly names. At least in my line of work, that's quite a common requirement. Being the magnificent human being you are, you'd like to write as little as possible. Therefore, you define a module
+<pre>
+<code>
+module Sockless
+  def no_socks_for( *names )
+    names.each { |name|
+      class_eval("
+        def #{name}_has_no_socks
+          @#{name} + ' is a ghastly beast with no socks'
+        end
+
+        def #{name}=(value)
+          @#{name} = value*2
+        end")
+    }
+  end
+end
+</code>
+</pre>
+Now you just have to extend your desired class with the Sockless module and you're home free
+<pre>
+<code>
+class TheSockZoo
+  extend Sockless
+  no_socks_for :pig, :sheep
+end
+</code>
+</pre>
+Subsequently, you can amaze all sentient beings within a 10 mile radius by just adding these three lines of code and viewing the wonders of modern technology in action
+<pre>
+<code>
+r = TheSockZoo.new
+r.pig,r.sheep = "gi","dee"
+p r.pig_has_no_socks, r.sheep_has_no_socks
+</code>
+</pre>

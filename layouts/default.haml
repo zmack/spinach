@@ -9,16 +9,16 @@ filter:    haml
   %link{ :type => "text/css", :rel => "stylesheet", :href => "/css/main.css" }
   %link{ :type => "text/css", :rel => "stylesheet", :href => "/css/highlighting/dark.css" }
   == <script type="text/javascript" src="/javascript/highlight.pack.js"></script>
+  == <script type="text/javascript" src="/javascript/posts.js"></script>
   == <script type="text/javascript"> hljs.initHighlightingOnLoad(); </script>
 %body
   #header
     %h1
       %a{ :href => "/" }
-        site.title
-    %cite.description site.subtitle
+        = SITE.title
+    %cite.description= SITE.subtitle
 
   #content
-    %ul#entries
-      = @content
+    = @content
     .sidebar
       = render :partial => '/sidebar'

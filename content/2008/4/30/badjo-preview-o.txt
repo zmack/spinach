@@ -1,0 +1,22 @@
+---
+title: Badjo preview ;o
+created_at: 2008-04-30 07:48:37 +03:00
+blog_post: true
+filter:
+  - tidy
+layout:
+  - post
+tags:
+  - badjo
+  - projects
+
+---
+<p>
+Stick a username in the input box, hit 'go', and it should either display a sad Octocat ( stuff failed, world coming to an end ), or actually display your repos. Your gravatar won't get displayed quite yet, sorry :( It was a big adjustment for me as well. But until i fix it, you can have Octocat ! Octocat's just as awesome, if not, even more awesome !
+</p>
+<p>
+Right, so this is pretty much it, if you look at the html in this post, after you overcome your gag reflex at all the rubbish in there, the "FlashVars" section of the flash snippet of the code contains the git user, and the bgcolor param and embed attribute control the movie's background color. 
+</p>
+<p>
+If you click around on stuff nothing happens, for the moment and i'm still bouncing around ideas of what it should actually do on click, so if you've got any suggestions leave a comment, hit me up on <a href="http://twitter.com/monsieur_pickle">twitter</a>, or just fork it and hack it to bits :D. 
+</p>

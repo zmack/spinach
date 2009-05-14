@@ -1,0 +1,32 @@
+---
+title: On testing - part one of many
+created_at: 2007-10-23 19:12:20 +03:00
+blog_post: true
+filter:
+  - tidy
+layout:
+  - post
+tags:
+  - ruby
+  - testing
+
+---
+<p>
+Hey there, people. As you may or may not have noticed, i haven't really been writing all that much for the past few weeks, but now i have returned and am fully prepared to deliver upon the afore-promised bacon !
+</p>
+<br/>
+<p>
+So i've been reading and writing a lot of tests for an existing application, and the grand conclusion i have come to is that fixtures are rubbish. There are a number of tests one can not carry out without using fixtures, but for the greater part using a <a href="http://www.dcmanges.com/blog/38">Factory</a>-based approach is more fun to both read and write. 
+</p>
+<br/>
+<p>
+The reason i like creating objects in my test rather than having fixtures is that it's easier to keep track of the things i have in my database and it makes the models easier to understand for people who are new to the codebase. For you it may be quite obvious that you need to create a <b>Widget</b> before you create a <b>Kludgel</b> and a <b>Porkchop</b> that need to be linked to a <b>Fricasee</b> and a <b>Frisbee</b> with a diameter greater than 15, but having to swim around the codebase to gather that whole structure would take a lot more time and be considerably more boring than just having it laid out in front of you in a test and being able to play around with. 
+</p>
+<br/>
+<p>
+One thing that doesn't really work that well when you're writing tests for an existing codebase is mocking. You generally want to write code with mocking and ease of testing in mind. What that usually leaves you with is a <a href="http://www.therailsway.com/2007/10/4/many-skinny-methods">lot of skinny methods</a> just ripe for mocking, stubbing, and isolating the liver out of your unit tests. 
+</p>
+<br/>
+<p>
+Also, another thing to look out for is that posts containing no code at all look surprisingly smaller than posts containing code. As such, I shall return soon bearing gifts of both code and posts !
+</p>

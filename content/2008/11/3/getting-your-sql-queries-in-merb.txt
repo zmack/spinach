@@ -1,0 +1,35 @@
+---
+title: Getting your sql queries in merb
+created_at: 2008-11-03 16:24:58 +02:00
+blog_post: true
+filter:
+  - tidy
+layout:
+  - post
+tags:
+  - merb
+  - sql
+  - logging
+
+---
+<p>
+Annoyingly enough, i looked for this for the better part of 20 minutes, so i'm just going to make a note of it here, so that the next time i forget it i can safely feel like a huge tit when the search leads me to my own vegetable-rich blog.
+</p>
+
+<pre>
+<code>
+Merb::BootLoader.after_app_loads do
+  # Add dependencies here that must load after the application loads:
+  # dependency "magic_admin" # this gem uses the app's model classes
+  DataObjects::Sqlite3.logger = DataObjects::Logger.new(STDOUT, 0)
+end
+</code>
+</pre>
+
+<p>
+The class obviously changes if you're using a different database
+</p>
+
+<p>
+P.S.: Future-me, if you're reading this, you're an enormous twat. That is all
+</p>

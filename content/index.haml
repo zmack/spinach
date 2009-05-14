@@ -2,9 +2,12 @@
 extension: html
 filter:    haml
 layout:   default
+blog_post: false
 ---
 
 %h1 Hello there, son
 
-= @content
-= @pages
+%ul#entries
+  - @pages.find(:all, :in_directory => '/', :recursive => true, :blog_post => true).each do |page|
+    %li.entry
+      = render(page)

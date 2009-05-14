@@ -1,0 +1,44 @@
+---
+title: Using block helpers to make your views pretty
+created_at: 2007-08-26 20:27:31 +03:00
+blog_post: true
+filter:
+  - tidy
+layout:
+  - post
+tags:
+  - ruby
+  - rails
+  - views
+
+---
+<p>I was watching the code review that <a href="http://weblog.jamisbuck.org/">Jamis Buck</a> and <a href="http://www.vernix.org/marcel/">Marcel Molina</a> did for the <a href="http://mtnwestrubyconf2007.confreaks.com/">Mountain West Ruby Conference</a> and one really nice idea that grabbed my attention was using block helpers to separate sections in views.</p>
+<p>Let's say you have a view and you need to render a partial with some content which only people who love delicious pickles should see. 
+<pre>
+<code>
+<% if @user.loves_delicious_pickles? %>
+  <%= render :partial => "pickles" %>
+<% end %>
+</code>
+</pre>
+That's perfectly fine, but should your pickle logic get more complicated, you'll be stuck with an ugly looking conditional statement in your view. 
+</p>
+<p>The alternative would be to add a helper to your controller and move all  your logic in there 
+<pre>
+<code>
+def lover_of_delicious_pickles
+  yield if @user.loves_delicious_pickles?
+end
+</code>
+</pre>
+Which would turn your view into something to the tune of
+<pre>
+<code>
+<% lover_of_delicious_pickles do %>
+  <%= render :partial => "pickles" %>
+<% end %>
+</code>
+</pre>
+Granted, this isn't the best example but the idea itself is really good, and should at least make your code easier to understand. 
+</p>
+More on this <a href="http://codefluency.com/2006/05/28/rails-views-helpers-that-take-blocks/">here</a>.

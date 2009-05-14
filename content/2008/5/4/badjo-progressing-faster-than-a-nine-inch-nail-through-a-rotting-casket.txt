@@ -1,0 +1,23 @@
+---
+title: Badjo progressing faster than a nine inch nail through a rotting casket
+created_at: 2008-05-04 16:16:57 +03:00
+blog_post: true
+filter:
+  - tidy
+layout:
+  - post
+tags:
+  - badjo
+  - projects
+
+---
+<p>Been hacking away at this for a couple of days, and this is pretty much where i'm at currently.</p>
+<ul>
+<li>Gravatars get shown ( yay )</li>
+<li>Added project details when clicking on a repo ( have to add some sort of transition thingy but right now i can't think of a decent one so right now the text just magically appears )</li>
+<li>Made the whole thing fully resizable</li>
+<li>Scrolling for the project list ( the white circles control it - rubbish, i know, but MAGIC ! )</li>
+</ul>
+<p>
+So here's a quick look at what's what, and seeing as <a href="http://evil.che.lu">Cristi</a> let me know that i apparently stole <a href="http://drnicwilliams.com">Nic</a>'s son's name, this demo is entirely dedicated to him !
+</p>

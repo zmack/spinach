@@ -1,0 +1,23 @@
+---
+title: Tribby codings in the Berlins
+created_at: 2008-09-01 08:38:48 +03:00
+blog_post: true
+filter:
+  - tidy
+layout:
+  - post
+tags:
+  - actionscript
+  - tribby
+
+---
+<p>
+So yeah, i'm in Berlin, waiting for the <a href="http://www.bratwurst-on-rails.com/">Bratwurst</a> and i just remembered that it's really cool to say stuff like "I went to &lt;x city&gt; and hacked on &lt;y project&gt;". 
+</p>
+<p>
+I was going to say something clever but the gist of it is that i found this code, it does stuff, and it makes tribby look like a thing with bars. And as everybody knows, bars are aweseome.
+</p>
+<p>
+<a href="http://alternateidea.com/">Justin Palmer</a>'s commits to <a href="http://github.com/Caged/gitnub/tree">gitnub</a>, in lovely bars !
+</p>
+

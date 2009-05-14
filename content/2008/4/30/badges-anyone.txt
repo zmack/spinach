@@ -1,0 +1,38 @@
+---
+title: Badges, anyone ?
+created_at: 2008-04-30 07:41:37 +03:00
+blog_post: true
+filter:
+  - tidy
+layout:
+  - post
+tags:
+  - badjo
+  - projects
+  - actionscript
+
+---
+<p>
+For the past month or so i've been doing ActionScript 3. It's typed, it's compiled, and it has this 'dynamic mode' that allows you to basically code it like it's straight javascript, but that incurs some sort of performance penalty, but nobody knows the exact value of that penalty. Long story short, it's ok.
+</p>
+<p>
+This would pretty much justify the lack of posts since the amount of new information i could share on ruby topics has dropped by quite a bit. But, i digress. 
+</p>
+<p>
+So it's easter and i'm having a beer and snooping around the interwebs looking for pictures of monkeys arm-wrestling, and one thing leads to another and i notice that <a href="http://github.com">Github</a> has an api, and aforementioned api works with json as well. Being the go-getter i am, i start pondering about stuff i could possibly do with this new-found gem, and the first thing that pops out is "some sort of thing that displays a person's repos !". 
+</p>
+<p>
+Ten or so minutes later, just as i'm setting up and grabbing another beer, <a href="http://drnicwilliams.com">dr. Nic</a> starts showing off the <a href="http://github.com/drnic/github-badges/tree">javascript badge thing</a> that he'd done. Epic cryface ensues, but then, with renewed force, i decide to make mine not bigger, not better, but DIFFERENT !. 
+</p>
+<p>
+Nic made his with TDD ? Well screw that, i'll go hardcore, NO TESTS WHATSOEVER.
+</p>
+<p>
+Nic made his using jquery ? I'll... well, that doesn't really count, since i'm using a different language. BUT it's different nonetheless !.
+</p>
+<p>
+Also, it has rounded corners. Rounded corners are always a big win. 
+</p>
+<p>
+So anyway, without further ado, <a href="http://github.com/zmack/badjo">here</a>'s the repo. It's in pretty much what i'd call 'early alpha' right now, or in layman terms "LOL IT KINDOF WORKS !", but it gets the job done. I'll put a post up with a test so you can check it out for yourselves in a bit. ( no clue about the name tbh, at first i thought it would be cool to have it be like, "badge" + "banjo", because banjos are inherently cool, but now i think it's rubbish, so meh :'[ )
+</p>

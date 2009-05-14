@@ -1,0 +1,61 @@
+---
+title: Article tags ? In my layout ?
+created_at: 2007-08-08 00:48:59 +03:00
+blog_post: true
+filter:
+  - tidy
+layout:
+  - post
+tags:
+  - mephisto
+  - hacks
+  - liquid
+
+---
+While carefully constructing the friendly about section earlier today, I noticed that, should an article fail to receive any tags, it would be left with an annoying "Tags:" text and, misleadingly enough, no tags. This makes various baby animals the world over quite sad indeed, so it must be fixed.
+<br/>
+My first idea was to dive into the layout and try something to the tune of :
+<pre>
+<code>
+{% unless article.tags.empty? %} Tags: {{ article | linked_tag_list }}{% endunless %}
+</code>
+</pre>
+
+While this did not actually do anything useful, it did bring to light the fact that my understanding of liquid is laughable, at best. Grep safely in hand, i went deeper and came across this lovely piece of code in 'app\drops\article_drop.rb':
+<pre>
+<code>
+def initialize(source, options = {})
+    super source
+    @options  = options
+    @liquid.update \
+      'body'            => @source.body_html,
+      'excerpt'         => (@source.excerpt_html.blank? ? nil : @source.excerpt_html),
+      'accept_comments' => @source.accept_comments?,
+      'is_page_home'    => (options[:page] == true)
+  end
+</code>
+</pre>
+
+Being the horrible person that I am, I added 
+<pre>
+<code>
+'tagged'          => !@source.tags.empty?,
+</code>
+</pre>
+
+Luckily enough, the universe didn't collapse and i could now use
+<pre>
+<code>
+{% if article.tagged %} Tags: {{ article | linked_tag_list }}{% endif %}
+</code>
+</pre>
+<br/>
+Please note that if anybody tries making sense and pointing out that there is no sane reason why an article wouldn't be tagged, i will make up at least 20 reasons, one of which will involve string theories and pandas. You have been warned.
+<br/><br/>
+<i>Shameful later edit</i><br/>
+Thanks to <a href="http://evil.che.lu/">Cristi</a> i now know what the right way to go about the above problem would have been, namely
+<pre>
+<code>
+{% unless article.tags == empty %} Tags: {{ article | linked_tag_list }}{% endunless %}
+</code>
+</pre>
